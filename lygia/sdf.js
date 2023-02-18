@@ -1,4 +1,4 @@
-import { length, sub, dot, mul,subN } from '/src/modules/vec2.js'
+import { length, add, sub, dot, mul,subN } from '/src/modules/vec2.js'
 import { saturate } from './math.js';
 import { mulN } from '../src/modules/vec2.js';
 
@@ -9,4 +9,8 @@ export function lineSDF(st, a, b) {
   // console.log(length(mul(subN(to_a, h), b_to_a) ))
   return length(sub(to_a, mulN(b_to_a, h)) );
   
+}
+
+export function circleSDF(st, center) {
+  return length(sub(st, center));
 }
