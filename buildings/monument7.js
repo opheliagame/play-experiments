@@ -10,6 +10,8 @@ export const settings = {
   backgroundColor : 'white'
 }
 
+// TODO: layering circles with block structure 
+
 import { sdCircle, sdSegment, opSmoothUnion, opSmoothIntersection, opSmoothSubtraction } from '/src/modules/sdf.js'
 import { sort } from '/src/modules/sort.js'
 import { length, max, vec2, add, sub, mulN } from '/src/modules/vec2.js'
@@ -21,14 +23,15 @@ import { random, gnoise } from '../lygia/generative.js'
 import { lineSDF, circleSDF } from '../lygia/sdf.js'
 import { density } from './density.js'
 import { addN } from '../src/modules/vec2.js'
+import { colors_wha } from './colors.js'
 const { floor, sin, cos, tan, PI, abs } = Math
 
 const seed = Math.random()*10000.0
-const colors = ['mediumvioletred', 'gold', 'orange', 'chartreuse', 'blueviolet', 'deeppink'];
+const colors = colors_wha
 
 let points = []
 
-let N = 3
+let N = 2
 let prev = 0
 for(let i = -1; i < 1; i+=1/(N-1)) {
 	let off, p
@@ -37,7 +40,7 @@ for(let i = -1; i < 1; i+=1/(N-1)) {
 		p = vec2(off, i)
 	}
 	else {
-		off = prev + (Math.random()*2-1)*0.5
+		off = prev + (Math.random()*2-1)*0.3
 		p = vec2(off, i)
 	}
 	prev = off
@@ -49,9 +52,11 @@ export function main(coord, context, cursor, buffer) {
     const m = Math.min(context.cols, context.rows)
     const a = context.metrics.aspect
 
+	let res = 4
+
 	let st = {
-		x : 2.0 * (coord.x - context.cols / 2) / m * a,
-		y : 2.0 * (coord.y - context.rows / 2) / m
+		x : res * (coord.x - context.cols / 2) / m * a,
+		y : res * (coord.y - context.rows / 2) / m
 	}
 	
 	
@@ -63,7 +68,7 @@ export function main(coord, context, cursor, buffer) {
 	// st.x += random(st.y)*0.2
 	// st.y += random(st.x)*0.2
 
-	let dim = 4
+	let dim = 3
 	let fx = Math.floor((st.x*dim))/dim
 	let fy = Math.floor((st.y*dim))/dim
 
@@ -78,14 +83,19 @@ export function main(coord, context, cursor, buffer) {
 		let p = points[i]
 		let x = p.x + gnoise(st.x+t)*0.2
 		let y = p.y + gnoise(st.y+t)*0.2
-		let c1 = circleSDF(st, vec2(x, y))-0.5
+		// let c1 = circleSDF(st, vec2(x, y))-0.7
+		let c1 = circleSDF(st, vec2(x, y))-map(st.y, -1, 1, 0, 1.5)*1.2 //make longer fluidity
 		let c2 = circleSDF(st, vec2(x, y))-0.7
 		let c3 = circleSDF(st, vec2(x, y))-0.9
 		
-		let f1 = opSmoothSubtraction(c2, c1, 0.5)
-		f1 = c2*c1*c3
+		// let f1 = opSmoothSubtraction(c2, c1, 0.5)
+		// f1 = c1*c2
 
-		cf = opSmoothUnion(cf, (f1), 0.0)
+		cf = opSmoothUnion(cf, (c1), 0.0)
+	}
+
+	if(st.y < -res+0.2 || st.y > res-0.2) {
+		cf = 0
 	}
 
 	let c2 = circleSDF(st, vec2(fx, fy))-0.3

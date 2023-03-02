@@ -12,7 +12,7 @@ export const settings = {
 // const density = '/\;:+=-,._ '
 
 const { floor, sin, cos, tan, PI } = Math
-import { density } from "./density.js"
+import { density1 } from "./density.js"
 
 
 export function main(coord, context, cursor, buffer) {
