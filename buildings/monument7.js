@@ -7,28 +7,25 @@
 export const settings = {
 	fontSize: '18px',
   // once: true,
-  backgroundColor : 'white'
+  backgroundColor : '#222'
 }
 
 // TODO: layering circles with block structure 
 
 import { sdCircle, sdSegment, opSmoothUnion, opSmoothIntersection, opSmoothSubtraction } from '/src/modules/sdf.js'
-import { sort } from '/src/modules/sort.js'
 import { length, max, vec2, add, sub, mulN } from '/src/modules/vec2.js'
-import { vec3 } from '/src/modules/vec3.js'
 import { mix, map, smoothstep, smootherstep, fract } from '/src/modules/num.js';
-import { fill, stroke } from '/lygia/draw.js';
 import { CGA } from '/src/modules/color.js' 
-import { random, gnoise } from '../lygia/generative.js'
-import { lineSDF, circleSDF } from '../lygia/sdf.js'
-import { density } from './density.js'
+import { random, gnoise } from '../sugarrush/generative.js'
+import { lineSDF, circleSDF } from '../sugarrush/sdf.js'
+import { rdensity } from './utils/density.js'
 import { addN } from '../src/modules/vec2.js'
-import { colors_wha } from './colors.js'
+import { colors_wha } from './utils/colors.js'
 const { floor, sin, cos, tan, PI, abs } = Math
 
 const seed = Math.random()*10000.0
 const colors = colors_wha
-
+const density = rdensity[0]
 let points = []
 
 let N = 2
