@@ -17,14 +17,19 @@ import { circleSDF } from '../sugarrush/sdf.js'
 import { clamp } from '../src/modules/num.js'
 import { movement2 } from './utils/movement.js';
 import { gnoise } from '../sugarrush/generative.js';
+import { pattern3, pattern4, patterns } from './utils/pattern.js';
 
 
 
 let iColor = 0
 let iDensity = Math.floor(Math.random() * densities.length)
+let iPattern1 = Math.floor(Math.random() * patterns.length)
+let iPattern2 = Math.floor(Math.random() * patterns.length)
 
 let sColors = [...colors]
 let sDensity = densities[iDensity]
+let sPattern1 = pattern4
+let sPattern2 = pattern4
 
 console.log("colors: ", sColors)
 console.log("sDensity: ", sDensity)
@@ -67,7 +72,7 @@ export function main(coord, context, cursor, buffer) {
 
   let dim = 4.0
   let fy = Math.floor((st.y*dim))
-  let rn = gnoise(fy+dim+1+Math.random(seed)+t*0.5)
+  let rn = gnoise(fy+dim+1+seed+t*0.5)
   let y = clamp(st.y, -0.8, 0.8)
   
   // let sdf1 = sdSegment(st, vec2(-rn, fract(st.y*4.0)*fy), vec2(rn, fract(st.y*4.0)*fy), 0.6)
@@ -93,7 +98,7 @@ export function main(coord, context, cursor, buffer) {
   let sign = Math.floor(st.y * 20.0) % 2 == 0 ? 1 : -1
   let mod1 = Math.floor(Math.abs((coord.x/context.rows)*10.0 + Math.sin(st.y*2.0)*2.0*sign + t*2.0*sign)) % sDensity.length
 
-	let move = movement2(coord, context, sColors, cf)	
+	let move = sPattern1(coord, context, t)
 
 
   return {
