@@ -2,7 +2,3 @@
 .DS_Store
 .AppleDouble
 .LSOverride
-
-src/*
-css/
-tests/
