@@ -7,26 +7,27 @@ export const settings = {
   backgroundColor: '#222',
 }
 
-import { sdSegment, opSmoothUnion } from '../src/modules/sdf.js'
-import { length, max, vec2, add, sub, mulN } from '../src/modules/vec2.js'
-import { vec3 } from '../src/modules/vec3.js'
-import {fract } from '../src/modules/num.js';
-import { densities } from './utils/density.js'
-import { colors } from './utils/colors.js'
-import { circleSDF } from '../sugarrush/sdf.js'
-import { clamp } from '../src/modules/num.js'
-import { movement2 } from './utils/movement.js';
-import { gnoise } from '../sugarrush/generative.js';
-import { pattern3, pattern4, patterns } from './utils/pattern.js';
+import { sdSegment, opSmoothUnion } from '../../src/modules/sdf.js'
+import { length, max, vec2, add, sub, mulN } from '../../src/modules/vec2.js'
+import { vec3 } from '../../src/modules/vec3.js'
+import {fract } from '../../src/modules/num.js';
+import { densities } from '../utils/density.js'
+import { colors, colors_wha } from '../utils/colors.js'
+import { circleSDF } from '../../sugarrush/sdf.js'
+import { clamp } from '../../src/modules/num.js'
+import { movement2 } from '../utils/movement.js';
+import { gnoise } from '../../sugarrush/generative.js';
+import { pattern3, pattern4, patterns } from '../utils/pattern.js';
 
 
 
-let iColor = 0
+let iColor = Math.floor(Math.random() * colors.length)
 let iDensity = Math.floor(Math.random() * densities.length)
 let iPattern1 = Math.floor(Math.random() * patterns.length)
 let iPattern2 = Math.floor(Math.random() * patterns.length)
 
-let sColors = [...colors]
+// let sColors = [colors[iColor]]
+let sColors = colors_wha
 let sDensity = densities[iDensity]
 let sPattern1 = pattern4
 let sPattern2 = pattern4

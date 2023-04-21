@@ -9,23 +9,24 @@ export const settings = {
 }
 
 
-import { densities, density1, density2, rdensity } from "./utils/density.js"
-import { floor, length, mulN, vec2 } from '../src/modules/vec2.js'
-import { fract, mod } from "../src/modules/num.js"
-import { random } from "../sugarrush/generative.js"
-import { colors, colors1, colors_wha } from "./utils/colors.js"
-import { sdCircle, sdSegment } from '../src/modules/sdf.js'
-import { pattern1, pattern2, pattern3, pattern4, pattern5, patterns } from "./utils/pattern.js"
-import { circleSDF } from "../sugarrush/sdf.js"
-import { fill } from "../sugarrush/draw.js"
+import { densities, density1, density2, rdensity } from "../utils/density.js"
+import { floor, length, mulN, vec2 } from '../../src/modules/vec2.js'
+import { fract, mod } from "../../src/modules/num.js"
+import { random } from "../../sugarrush/generative.js"
+import { colors, colors1, colors_wha } from "../utils/colors.js"
+import { sdCircle, sdSegment } from '../../src/modules/sdf.js'
+import { pattern1, pattern2, pattern3, pattern4, pattern5, patterns } from "../utils/pattern.js"
+import { circleSDF } from "../../sugarrush/sdf.js"
+import { fill } from "../../sugarrush/draw.js"
 
-let iColor = 0
+let iColor = Math.floor(Math.random() * colors.length)
 let iDensity = Math.floor(Math.random() * densities.length)
 let iPattern1 = Math.floor(Math.random() * patterns.length)
 let iPattern2 = Math.floor(Math.random() * patterns.length)
 
+// let sColors = [colors[iColor]]
 let sColors = colors_wha
-let sDensity = densities[4]
+let sDensity = densities[iDensity]
 let sPattern1 = patterns[iPattern1]
 let sPattern2 = patterns[iPattern2]
 
@@ -62,7 +63,7 @@ export function main(coord, context, cursor, buffer) {
 
 	return {
 		// char: l1 < 0.0 ? sDensity[0] : '',
-    char: c > 0.0 ? sDensity[0] : '',
+    char: c > 0.0 ? sDensity[p1 % sDensity.length] : '',
     // char: angle > -90 && angle < 90 ? '1' : '',
     // char: length(st) < 0.5 ? '1' : '',
 

@@ -11,19 +11,30 @@ export const settings = {
 
 
 const { sin, cos, tan, PI } = Math
-import { density1, density2, rdensity } from "./utils/density.js"
-import { floor, mulN, vec2 } from '../src/modules/vec2.js'
-import { fract } from "../src/modules/num.js"
-import { gnoise, random } from "../sugarrush/generative.js"
-import { lineSDF } from "../sugarrush/sdf.js"
-import { rcolor } from "./utils/colors.js"
-import { sdSegment } from '../src/modules/sdf.js'
+import { densities, density1, density2, rdensity } from "../utils/density.js"
+import { floor, mulN, vec2 } from '../../src/modules/vec2.js'
+import { fract } from "../../src/modules/num.js"
+import { gnoise, random } from "../../sugarrush/generative.js"
+import { lineSDF } from "../../sugarrush/sdf.js"
+import { colors, colors_wha, rcolor } from "../utils/colors.js"
+import { sdSegment } from '../../src/modules/sdf.js'
+import { patterns } from "../utils/pattern.js"
 
-const density = rdensity
+let iColor = Math.floor(Math.random() * colors.length)
+let iDensity = Math.floor(Math.random() * densities.length)
+let iPattern1 = Math.floor(Math.random() * patterns.length)
+let iPattern2 = Math.floor(Math.random() * patterns.length)
+
+
+let sColors = colors_wha
+// let sColors = [colors[iColor]]
+let sDensity = densities[iDensity]
+let sPattern1 = patterns[iPattern1]
+let sPattern2 = patterns[iPattern2]
+
 const seed = Math.random()*1000
 const seedx = Math.floor(Math.random()*2400)
 const seedy = Math.floor(Math.random()*2400)
-// const colors = rcolor
 
 const swidth = Math.random() * 10
 
@@ -61,15 +72,17 @@ export function main(coord, context, cursor, buffer) {
 	let s1 = sdSegment(st, vec2(-rxl, st.y), vec2(rxr, st.y), 0.01)
 	// let s1 = sdSegment(st, vec2(-rx, st.y), vec2(rx1, st.y), 0.01)
 
-	let move = Math.abs(Math.sin(x+t) * density.length)
+	let move = Math.abs(Math.sin(x+t) * sDensity.length)
 
-	index = Math.floor(index + move) % density.length
-	// index = Math.floor(index+move) % density.length;
+	index = Math.floor(index + move) % sDensity.length
+	// index = Math.floor(index+move) % sDensity.length;
+
+	let mod1 = sPattern1(coord, context, t)
 
 	// return mody
 	return {
-		char: density[index],
-		char: s1 < 0.0 ? density[index] : '',
-		color: s1 < 0.0 ? rcolor : 'white',
+		char: sDensity[index],
+		char: s1 < 0.0 ? sDensity[index] : '',
+		color: s1 < 0.0 ? sColors[mod1 % sColors.length] : 'white',
 	}
 }

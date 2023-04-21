@@ -1,7 +1,6 @@
 /**
 @author opheliagame
-@title  monument 12
-@desc  	hourglass figure
+@title  watermelon 
 */
 
 export const settings = {
@@ -16,19 +15,26 @@ export const settings = {
 import { sdCircle, sdSegment, opSmoothUnion, opSmoothIntersection, opSmoothSubtraction } from '/src/modules/sdf.js'
 import { clamp, map, fract } from '/src/modules/num.js'
 import { vec2, length, add } from '/src/modules/vec2.js'
-import { density1, density2, density3, density4, density6, rdensity } from './density.js';
+import { densities, rdensity } from '../utils/density.js';
 import { sort } from '/src/modules/sort.js'
-import { mul, mulN, sub, subN } from '../src/modules/vec2.js';
-import { gnoise, random, vrandom } from '../lygia/generative.js';
-import { colors_wha } from './colors.js';
-import { circleSDF, polySDF, starSDF } from '../lygia/sdf.js';
-import { fill, stroke } from '../lygia/draw.js'
-import { pattern1, pattern2 } from './pattern.js';
-import { block1 } from './blocks/block1.js';
+import { mul, mulN, sub, subN } from '../../src/modules/vec2.js';
+import { colors, colors_wha } from '../utils/colors.js';
+import { block1 } from '../blocks/block1.js';
+import { patterns } from '../utils/pattern.js';
 
 const { sin, cos, floor, pow, max, atan2, PI } = Math
 
-const colors = colors_wha;
+let iColor = Math.floor(Math.random() * colors.length)
+let iDensity = Math.floor(Math.random() * densities.length)
+let iPattern1 = Math.floor(Math.random() * patterns.length)
+let iPattern2 = Math.floor(Math.random() * patterns.length)
+
+
+let sColors = colors_wha
+// let sColors = [colors[iColor]]
+let sDensity = densities[iDensity]
+let sPattern1 = patterns[iPattern1]
+let sPattern2 = patterns[iPattern2]
 
 let d1 = rdensity
 let d2 = rdensity
@@ -60,17 +66,17 @@ export function main(coord, context, cursor, buffer) {
 		b = 0
 	}
 
-  let mod1 = Math.floor((b) + (b%2*t) + (b%3*t)) % d1.length
+  let mod1 = sPattern1(coord, context, t)
 
 	return {
 		// char: s1 > 0.0 ? d1[mod1] 
 		// 			: s2 > 0.0 ? d2[mod1] 
 		// 			: s3 > 0.0 ? d3[mod1] 	
 		// 			: s4 > 0.0 ? d4[mod1] : '',	
-		char: b ? d1[mod1] : '',
+		char: b ? d1[mod1 % sDensity.length] : '',
 		// char: st.y,
     // char: clamp(coord.y, 20, context.rows/4),
-		color: b ? colors[0] : 'white',
+		color: b ? sColors[mod1 % sColors.length] : 'white',
 		backgroundColor: '#222',
 
 	}

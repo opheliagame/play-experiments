@@ -22,9 +22,9 @@ import { sort } from '/src/modules/sort.js'
 import { length, max, vec2, add, sub, mulN } from '/src/modules/vec2.js'
 import { vec3 } from '/src/modules/vec3.js'
 import { mix, map, smoothstep, smootherstep, fract, clamp } from '/src/modules/num.js';
-import { fill, stroke } from '/lygia/draw.js';
+import { fill, stroke } from '/sugarrush/draw.js';
 import { CGA } from '/src/modules/color.js'
-import { random, gnoise } from '/lygia/generative.js'
+import { random, gnoise } from '/sugarrush/generative.js'
 const { floor, sin, cos, tan, PI, abs } = Math
 
 const seed = Math.random() * 10000.0

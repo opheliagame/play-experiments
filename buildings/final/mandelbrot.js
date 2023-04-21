@@ -7,18 +7,25 @@ export const settings = {
   backgroundColor: '#222'
 }
 
-import { fract } from '../src/modules/num.js'
-import { vec2, length, add } from '../src/modules/vec2.js'
-import { densities, rdensity } from './utils/density.js';
-import { gnoise, random } from '../sugarrush/generative.js';
-import { colors } from './utils/colors.js';
-import { movement1 } from './utils/movement.js';
+import { fract } from '../../src/modules/num.js'
+import { vec2, length, add } from '../../src/modules/vec2.js'
+import { densities, rdensity } from '../utils/density.js';
+import { gnoise, random } from '../../sugarrush/generative.js';
+import { colors, colors_wha } from '../utils/colors.js';
+import { movement1 } from '../utils/movement.js';
+import { patterns } from '../utils/pattern.js';
 
-let iColor = 0
-let iDensity = 0
+let iColor = Math.floor(Math.random() * colors.length)
+let iDensity = Math.floor(Math.random() * densities.length)
+let iPattern1 = Math.floor(Math.random() * patterns.length)
+let iPattern2 = Math.floor(Math.random() * patterns.length)
 
-let sColors = [...colors]
+
+let sColors = colors_wha
+// let sColors = [colors[iColor]]
 let sDensity = densities[iDensity]
+let sPattern1 = patterns[iPattern1]
+let sPattern2 = patterns[iPattern2]
 
 console.log("colors: ", sColors)
 console.log("density: ", sDensity)
@@ -66,20 +73,19 @@ export function main(coord, context, cursor, buffer) {
 	mo += (s1+s2+s3)
 	// mo += st.y > 0.0 ? s : 0
 	
-	let mod1 = (coord.x / context.rows) * context.rows/20
-  mod1 += (coord.y / context.cols) * context.cols/1
-  mod1 += random(st.y*20.0)*2
-  mod1 += random(st.x*20.0)*1
-  // mod1 += gnoise(t)
-  // mod1 += (t*2)
-	mod1 = Math.floor(mod1 % sDensity.length)
-
- 
-	let move = movement1(coord, context, sColors)
+	// let mod1 = (coord.x / context.rows) * context.rows/20
+  // mod1 += (coord.y / context.cols) * context.cols/1
+  // mod1 += random(st.y*20.0)*2
+  // mod1 += random(st.x*20.0)*1
+  // // mod1 += gnoise(t)
+  // // mod1 += (t*2)
+	// mod1 = Math.floor(mod1 % sDensity.length)
+	let mod1 = sPattern1(coord, context, t)
+	let mod2 = sPattern2(coord, context, t)
 	
 	return {
-		char: mo > 1.0 ? sDensity[(mod1)] : '',
-		color: sColors[move%sColors.length],
+		char: mo > 1.0 ? sDensity[(mod1) % sDensity.length] : '',
+		color: sColors[mod2 %sColors.length],
 	}
 }
 
