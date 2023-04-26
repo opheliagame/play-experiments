@@ -16,7 +16,7 @@ import { densities, rdensity } from '../utils/density.js';
 import { sort } from '../../src/modules/sort.js'
 import { mulN, sub, subN } from '../../src/modules/vec2.js';
 import { gnoise, random, vrandom } from '../../sugarrush/generative.js';
-import { colors, colors_wha, green, lavender, rcolor, stone } from '../utils/colors.js';
+import { colors, colors_wha, pistachio, lavender, rcolor, stone } from '../utils/colors.js';
 import { circleSDF, polySDF, starSDF } from '../../sugarrush/sdf.js';
 import { fill, stroke } from '../../sugarrush/draw.js'
 import { pattern1, pattern2, pattern4, patterns } from '../utils/pattern.js';
