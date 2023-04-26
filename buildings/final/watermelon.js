@@ -20,7 +20,7 @@ import { sort } from '/src/modules/sort.js'
 import { mul, mulN, sub, subN } from '../../src/modules/vec2.js';
 import { colors, colors_wha } from '../utils/colors.js';
 import { block1 } from '../blocks/block1.js';
-import { patterns } from '../utils/pattern.js';
+import { pattern6, patterns } from '../utils/pattern.js';
 
 const { sin, cos, floor, pow, max, atan2, PI } = Math
 
@@ -30,16 +30,14 @@ let iPattern1 = Math.floor(Math.random() * patterns.length)
 let iPattern2 = Math.floor(Math.random() * patterns.length)
 
 
-let sColors = colors_wha
+let sColors = colors[iColor]
 // let sColors = [colors[iColor]]
 let sDensity = densities[iDensity]
-let sPattern1 = patterns[iPattern1]
+let sPattern1 = pattern6
 let sPattern2 = patterns[iPattern2]
 
-let d1 = rdensity
-let d2 = rdensity
-let d3 = rdensity
-let d4 = rdensity
+
+
 
 export function main(coord, context, cursor, buffer) {
 	const m = max(context.cols, context.rows)
@@ -65,18 +63,20 @@ export function main(coord, context, cursor, buffer) {
 	if(coord.y < 5 || coord.y > (context.rows-5)) {
 		b = 0
 	}
+	let mod1 = Math.floor((b) + (b%2*t) + (b%3*t))
 
-  let mod1 = sPattern1(coord, context, t)
+  // let mod1 = sPattern1(coord, context, t)
+  let mod2 = sPattern1(coord, context, 0)
 
 	return {
-		// char: s1 > 0.0 ? d1[mod1] 
-		// 			: s2 > 0.0 ? d2[mod1] 
-		// 			: s3 > 0.0 ? d3[mod1] 	
-		// 			: s4 > 0.0 ? d4[mod1] : '',	
-		char: b ? d1[mod1 % sDensity.length] : '',
+		// char: b1 > 0.0 ? sDensity[mod1] 
+		// 			: b2 > 0.0 ? sDensity[mod1] 
+		// 			: b3 > 0.0 ? sDensity[mod1] 	
+		// 			: b4 > 0.0 ? sDensity[mod1] : '',	
+		char: b ? sDensity[mod1 % sDensity.length] : '',
 		// char: st.y,
     // char: clamp(coord.y, 20, context.rows/4),
-		color: b ? sColors[mod1 % sColors.length] : 'white',
+		color: b ? sColors[mod2 % sColors.length] : 'white',
 		backgroundColor: '#222',
 
 	}

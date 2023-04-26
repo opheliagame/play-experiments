@@ -44,5 +44,9 @@ export const pattern5 = (coord, context, time) => {
   return 0
 }
 
+export const pattern6 = (coord, context, time) => {
+  return Math.floor(time)
+}
+
 
 export const patterns = [pattern2, pattern3, pattern4]

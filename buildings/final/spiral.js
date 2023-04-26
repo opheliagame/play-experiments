@@ -26,7 +26,7 @@ let iPattern1 = Math.floor(Math.random() * patterns.length)
 let iPattern2 = Math.floor(Math.random() * patterns.length)
 
 
-let sColors = colors_wha
+let sColors = colors[iColor]
 // let sColors = [colors[iColor]]
 let sDensity = densities[iDensity]
 let sPattern1 = patterns[iPattern1]
@@ -78,11 +78,12 @@ export function main(coord, context, cursor, buffer) {
 	// index = Math.floor(index+move) % sDensity.length;
 
 	let mod1 = sPattern1(coord, context, t)
+	let mod2 = sPattern1(coord, context, 0)
 
 	// return mody
 	return {
-		char: sDensity[index],
-		char: s1 < 0.0 ? sDensity[index] : '',
-		color: s1 < 0.0 ? sColors[mod1 % sColors.length] : 'white',
+		char: sDensity[mod1 % sDensity.length],
+		char: s1 < 0.0 ? sDensity[mod1 % sDensity.length] : '',
+		color: s1 < 0.0 ? sColors[mod2 % sColors.length] : 'white',
 	}
 }
