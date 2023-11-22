@@ -8,10 +8,12 @@ import { sdCircle, opSmoothUnion } from '/src/modules/sdf.js'
 import { sort } from '/src/modules/sort.js'
 import { length, max, vec2, add, sub, mulN } from '/src/modules/vec2.js'
 import { mix, map, smoothstep, smootherstep, fract } from '/src/modules/num.js';
-import { fill, stroke } from '/lygia/draw.js';
+import { fill, stroke } from '/sugarrush/draw.js';
 import { CGA } from '/src/modules/color.js'
-import { density } from './density.js'
+import { rdensity } from './utils/density.js'
 
+
+const density = rdensity
 console.log(CGA)
 
 const { sin, cos, tan, atan2 } = Math

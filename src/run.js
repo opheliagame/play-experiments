@@ -419,6 +419,7 @@ export function calcMetrics(el) {
 	// Extract info from the style: in case of a canvas element
 	// the style and font family should be set anyways.
 	const fontFamily = style.getPropertyValue('font-family')
+	console.log("font family: ", fontFamily)
 	const fontSize   = parseFloat(style.getPropertyValue('font-size'))
 	// Can’t rely on computed lineHeight since Safari 14.1
 	// See:  https://bugs.webkit.org/show_bug.cgi?id=225695
@@ -434,10 +435,14 @@ export function calcMetrics(el) {
 	} else {
 		const span = document.createElement('span')
 		el.appendChild(span)
+		// span.innerHTML = ''.padEnd(50, 'Ｘ')
 		span.innerHTML = ''.padEnd(50, 'X')
 		cellWidth = span.getBoundingClientRect().width / 50
 		el.removeChild(span)
 	}
+	// cellWidth = 14	
+
+	console.log("cell width: ", cellWidth)
 
 	const metrics = {
 		aspect : cellWidth / lineHeight,

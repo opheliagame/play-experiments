@@ -10,11 +10,6 @@ export const settings = {
   backgroundColor: 'white'
 }
 
-// const density = '9876543210?!abc;:+=-,._ '
-// const density = '/\;:+=-,._ '
-// const density = 'have you eaten'
-// const density = [' ', 'कु', 'छ']
-// const density = ['प', 'ने', ' ', 'न', 'म', ' ', 'कु', 'छ']
 const density = '█▓▒░ ';
 
 import { sdCircle, sdSegment, opSmoothUnion } from '/src/modules/sdf.js'
@@ -28,9 +23,6 @@ import { random, gnoise } from '/sugarrush/generative.js'
 const { floor, sin, cos, tan, PI, abs } = Math
 
 const seed = Math.random() * 10000.0
-const colors = ['mediumvioletred', 'gold', 'orange', 'chartreuse', 'blueviolet', 'deeppink'];
-
-
 
 export function block1(coord, context, top, bottom, cursor, buffer) {
   const t = context.time * 0.001
@@ -49,15 +41,7 @@ export function block1(coord, context, top, bottom, cursor, buffer) {
   let rn = gnoise(st.y * 2.0 + t + random(seed) * 100)
   let y = clamp(st.y, top, bottom)
 
-  // let sdf1 = sdSegment(st, vec2(-rn, fract(st.y*4.0)*fy), vec2(rn, fract(st.y*4.0)*fy), 0.6)
   let sdf1 = sdSegment(st, vec3(-rn, y, 0.0), vec3(rn, y, 0.0), 0.01)
-
-  let sign = Math.floor(st.y * 20.0) % 2 == 0 ? 1 : -1
-  // let mod1 = Math.floor(Math.abs((coord.x/context.rows)*50.0 + sin(st.y*2.0)*2.0*sign + t*2.0*sign)) % density.length
-  let mod1 = Math.floor(Math.abs((coord.x / context.rows) * 20.0 + sin(st.x) * 2.0 * sign)) % density.length
-  let mod2 = Math.floor(Math.abs((coord.x / context.rows) * 50.0 + sin(st.y * 2.0) * 2.0 * sign + t * 2.0 * sign)) % density.length
-
-  // mod1 = mod2
 
   return sdf1 < 0.0
 

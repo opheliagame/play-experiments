@@ -49,4 +49,6 @@ export const pattern6 = (coord, context, time) => {
 }
 
 
+
+
 export const patterns = [pattern2, pattern3, pattern4]

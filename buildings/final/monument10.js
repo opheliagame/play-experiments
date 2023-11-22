@@ -5,28 +5,25 @@
 */
 
 export const settings = {
-	// backgroundColor: '#222',
-	// once: true,
-	rows: 500,
+	backgroundColor: '#222',
+
 }
 
-import { sdCircle, sdSegment, opSmoothUnion, opSmoothIntersection, opSmoothSubtraction } from '/src/modules/sdf.js'
-import { clamp, map, fract } from '/src/modules/num.js'
-import { vec2, length, add } from '/src/modules/vec2.js'
-import { density1, density2, density6, rdensity } from './density.js';
-import { sort } from '/src/modules/sort.js'
-import { mulN, sub, subN } from '../src/modules/vec2.js';
-import { gnoise, random, vrandom } from '../lygia/generative.js';
-import { colors1, colors_wha } from './colors.js';
-import { circleSDF, polySDF, starSDF } from '../lygia/sdf.js';
-import { fill, stroke } from '../lygia/draw.js'
-import { pattern1 } from './pattern.js';
+import { sdCircle, sdSegment, opSmoothUnion, opSmoothIntersection, opSmoothSubtraction } from '../../src/modules/sdf.js'
+import { clamp, map, fract } from '../../src/modules/num.js'
+import { vec2, length, add } from '../../src/modules/vec2.js'
+import { densities } from '../utils/density.js';
+import { sort } from '../../src/modules/sort.js'
+import { mulN, sub, subN } from '../../src/modules/vec2.js';
+import { gnoise, random, vrandom } from '../../sugarrush/generative.js';
+import { colors } from '../utils/colors.js';
+import { circleSDF, polySDF, starSDF } from '../../sugarrush/sdf.js';
+import { fill, stroke } from '../../sugarrush/draw.js'
+import { pattern1, patterns } from '../utils/pattern.js';
 
 const { sin, cos, floor, pow, max, atan2, PI } = Math
 
-const colors = colors1;
-
-let density = density2
+let density = densities[1]
 
 export function main(coord, context, cursor, buffer) {
 	const m = max(context.cols, context.rows)
@@ -72,8 +69,8 @@ export function main(coord, context, cursor, buffer) {
 
 	return {
 		char: f1 > 0.0 ? density[mod3] : '',
-		char: s < 0.0 ? density[mod3] : '',
-		// char: fract(st.x*4.0) < 0.5 ? '/' : '',c
+		// char: s < 0.0 ? density[mod3] : '',
+		// char: fract(st.x*4.0) < 0.5 ? '/' : '',
 
 		// char: (st.x+y) < 0.5 ? '/' : '',
 		// color: colors[0]

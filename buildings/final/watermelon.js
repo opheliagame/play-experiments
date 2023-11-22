@@ -36,8 +36,7 @@ let sDensity = densities[iDensity]
 let sPattern1 = pattern6
 let sPattern2 = patterns[iPattern2]
 
-
-
+let b = localStorage.getItem('sketch-b')
 
 export function main(coord, context, cursor, buffer) {
 	const m = max(context.cols, context.rows)
@@ -50,19 +49,28 @@ export function main(coord, context, cursor, buffer) {
 	}
 
 
-  let c1 = vec2(coord.x, clamp(coord.y, 0, context.rows/4))
-  let c2 = vec2(coord.x, clamp(coord.y, context.rows/4, context.rows*2/4))
-  let c3 = vec2(coord.x, clamp(coord.y, context.rows*2/4, context.rows*3/4))
-  let c4 = vec2(coord.x, clamp(coord.y, context.rows*3/4, context.rows))
-  let b1 = block1(c1, context, -0.8, 0.8)
-  let b2 = block1(c2, context, -0.8, 0.8)
-  let b3 = block1(c3, context, -0.8, 0.8)
-  let b4 = block1(c4, context, -0.8, 0.8)
-  let b = b1 + b2 + b3 + b4
-	
-	if(coord.y < 5 || coord.y > (context.rows-5)) {
-		b = 0
+  // let c1 = vec2(coord.x, clamp(coord.y, 0, context.rows/4))
+  // let c2 = vec2(coord.x, clamp(coord.y, context.rows/4, context.rows*2/4))
+  // let c3 = vec2(coord.x, clamp(coord.y, context.rows*2/4, context.rows*3/4))
+  // let c4 = vec2(coord.x, clamp(coord.y, context.rows*3/4, context.rows))
+
+	if(b == null) {
+		let c1 = st
+		let c2 = st
+		let c3 = st
+		let c4 = st
+		let b1 = block1(c1, context, -1.0, 1.0)
+		let b2 = block1(c2, context, -1.0, 1.0)
+		let b3 = block1(c3, context, -1.0, 1.0)
+		let b4 = block1(c4, context, -1.0, 1.0)
+		b = b1 + b2 + b3 + b4
 	}
+	
+  
+	
+	// if(coord.y < 5 || coord.y > (context.rows-5)) {
+	// 	b = 0
+	// }
 	let mod1 = Math.floor((b) + (b%2*t) + (b%3*t))
 
   // let mod1 = sPattern1(coord, context, t)

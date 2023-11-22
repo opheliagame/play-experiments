@@ -34,6 +34,7 @@ function render(context, buffer) {
 	while(element.childElementCount < rows) {
 		const span = document.createElement('span')
 		span.style.display = 'block'
+		// span.style.justifyContent = 'space-around'
 		element.appendChild(span)
 	}
 
@@ -61,20 +62,20 @@ function render(context, buffer) {
 		// It is necessary to keep track of the previous state
 		// and specifically check if a change in style
 		// or char happened on the whole row.
-		let rowNeedsUpdate = false
+		// let rowNeedsUpdate = false
 		for (let i=0; i<cols; i++) {
 			const idx = i + offs
 			const newCell = buffer[idx]
 			const oldCell = backBuffer[idx]
-			if (!isSameCell(newCell, oldCell)) {
-				if (rowNeedsUpdate == false) updatedRowNum++
-				rowNeedsUpdate = true
-				backBuffer[idx] = {...newCell}
-			}
+			// if (!isSameCell(newCell, oldCell)) {
+				// if (rowNeedsUpdate == false) updatedRowNum++
+				// rowNeedsUpdate = true
+				// backBuffer[idx] = {...newCell}
+			// }
 		}
 
 		// Skip row if update is not necessary
-		if (rowNeedsUpdate == false) continue
+		// if (rowNeedsUpdate == false) continue
 
 		let html = '' // Accumulates the markup
 		let prevCell = {} //defaultCell
@@ -95,23 +96,25 @@ function render(context, buffer) {
 			}
 
 			// If there is a change in style a new span has to be inserted
-			if (!isSameCellStyle(currCell, prevCell)) {
+			// if (!isSameCellStyle(currCell, prevCell)) {
 				// Close the previous tag
 				if (tagIsOpen) html += '</span>'
 
 				const c = currCell.color === context.settings.color ? null : currCell.color
 				const b = currCell.backgroundColor === context.settings.backgroundColor ? null : currCell.backgroundColor
 				const w = currCell.fontWeight === context.settings.fontWeight ? null : currCell.fontWeight
+				const r = currCell.rotation ?? '0deg'
 
 				// Accumulate the CSS inline attribute.
-				let css = ''
+				let css = 'display: inline-block; '
 				if (c) css += 'color:' + c + ';'
 				if (b) css += 'background:' + b + ';'
 				if (w) css += 'font-weight:' + w + ';'
+				if (r) css += 'transform: rotate(' + r + 'rad);'
 				if (css) css = ' style="' + css + '"'
 				html += '<span' + css + '>'
 				tagIsOpen = true
-			}
+			// }
 			html += currCell.char
 			prevCell = currCell
 

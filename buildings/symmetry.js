@@ -18,6 +18,7 @@ import { fill, stroke } from '../sugarrush/draw.js'
 import { pattern1, patterns } from './utils/pattern.js';
 import { abs, dist, mulN, sub } from '../src/modules/vec2.js';
 import { gnoise, random } from '../sugarrush/generative.js';
+import { vrandom } from '../sugarrush/generative.js';
 
 const { sin, cos, floor, pow, max, atan2, PI } = Math
 
@@ -33,14 +34,13 @@ let sDensity = densities[iDensity]
 let sPattern1 = patterns[iPattern1]
 let sPattern2 = patterns[iPattern2]
 
-const seed = Math.random()*10000.0
-const seed2 = Math.random()*10000.0
+const seed1 = Math.random()*10000.0
 
 export function main(coord, context, cursor, buffer) {
 	const m = max(context.cols, context.rows)
 	const a = context.metrics.aspect
 	let t = context.time*0.001
-	t = 0
+  t = 0.0
 
 	let st = {
 		x : 2.0 * (coord.x - context.cols / 2) / m * a,
@@ -52,28 +52,22 @@ export function main(coord, context, cursor, buffer) {
 		y : fract(st.y * 2.0) - 0.5
 	}
 
-  let ry = Math.round(st.y*8.0)/8.0
-
-	let fx = Math.round(st.x * 10.0)/10.0
-	let fx1 = Math.sin(st.y*20+seed)*0.05 
-	let l1 = sdSegment(st, vec2(-fx1, st.y), vec2(-fx1+0.05, st.y), 0.01)
-
-  let rx = gnoise(ry*1000.0+seed)+0.05
-	rx = rx * 0.05
-	let rw = random(ry*100+seed2)*0.5+0.05 
-	rw = rw * (ry+0.05)
-  let l = sdSegment(st, vec2(-rx, ry), vec2(-rx+rw, ry), 0.08)
-
-	// let l2 = 
-
-	let lfinal = l
-
   let mod1 = sPattern1(coord, context, t)
 
+  let angle = Math.sin(atan2(st.y, st.x)*10.0 + st.x*20.0)*10.0
+  let mod2 = Math.tan(st.y*10.0+2.0)*10.
+
+  let st1 = mulN(st, angle)
+  st1 = vec2(Math.floor(Math.abs(st1.x)+seed1), Math.floor(st1.y))
+
+  let l = sdSegment(st, vec2(-0.01, st.y), vec2(0.01, st.y), 0.1)
+  // let rb = (vrandom(st1) < 0.5 && l < 0.0) ? 1 : 0
+  let rb = (vrandom(st1) < 0.5) ? 1 : 0
+
 	return {
-		char: lfinal < 0.0 ? sDensity[mod1 % sDensity.length] : '',
-		// char: l1 < 0.0 ? '/' : '',
-    // char: ry,
+    char: rb == 1 ? sDensity[mod1 % sDensity.length] : '',
+    // char: l < 0.0 ? '/' : '',
+    // char: angle,
     color: sColors[mod1 % sColors.length] 
 		
 	}
